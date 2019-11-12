@@ -32,4 +32,4 @@ MapPointandKeyFrame.bin
 Examples/Stereo/stereo_zed
 
 #set bag
-/bag/*.bag
+*.bag
