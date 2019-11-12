@@ -1,0 +1,141 @@
+%YAML:1.0
+
+#--------------------------------------------------------------------------------------------
+# Camera Parameters. Adjust them!
+#--------------------------------------------------------------------------------------------
+
+# Camera calibration and distortion parameters (OpenCV) 
+Camera.fx: 379.3759024531185
+Camera.fy: 379.3759024531185
+Camera.cx: 389.2841758728027
+Camera.cy: 239.6462745666504
+
+Camera.k1: 0.0
+Camera.k2: 0.0
+Camera.p1: 0.0
+Camera.p2: 0.0
+
+Camera.width: 752
+Camera.height: 480
+
+# Camera frames per second 
+Camera.fps: 25.0
+
+# stereo baseline times fx
+Camera.bf: 45.57650618455599
+
+# Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
+Camera.RGB: 1
+
+# Close/Far threshold. Baseline times.
+ThDepth: 35
+
+#--------------------------------------------------------------------------------------------
+# Stereo Rectification. Only if you need to pre-rectify the images.
+# Camera.fx, .fy, etc must be the same as in LEFT.P
+#--------------------------------------------------------------------------------------------
+LEFT.height: 480
+LEFT.width: 752
+LEFT.D: !!opencv-matrix
+   rows: 1
+   cols: 5
+   dt: d
+   data: [-0.319756116357857, 0.0912123693788254, -0.00144253654597316, 0.00245375459378675, 0]
+LEFT.K: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [379.256941731916, 0, 369.456424111685, 0, 379.951191476374, 241.864153546275, 0, 0, 1]
+LEFT.R:  !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [0.9999276012284282, -0.003252880223095449, -0.01158495022931896, 0.003241728546147464, 0.999994264157167, -0.0009812485921627937, 0.01158807566400463, 0.0009436222871060236, 0.9999324107555392]
+LEFT.P:  !!opencv-matrix
+   rows: 3
+   cols: 4
+   dt: d
+   data: [379.3759024531185, 0, 389.2841758728027, -45.57650618455599, 0, 379.3759024531185, 239.6462745666504, 0, 0, 0, 1, 0]
+
+RIGHT.height: 480
+RIGHT.width: 752
+RIGHT.D: !!opencv-matrix
+   rows: 1
+   cols: 5
+   dt: d
+   data: [-0.316326869575363, 0.0872447799555178, -0.00126211796851057, 0.00297189300417191, 0]
+RIGHT.K: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [377.783141381447, 0, 376.181556689017, 0, 378.800613429863, 240.737708307652, 0, 0, 1]
+RIGHT.R:  !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [0.9999296434205325, -0.004607064656852239, -0.01093083547283952, 0.00461806654989616, 0.9999888550232741, 0.0009814736790007333, 0.01092619193623445, -0.00103188395152939, 0.9999397749591137]
+RIGHT.P:  !!opencv-matrix
+   rows: 3
+   cols: 4
+   dt: d
+   data: [379.3759024531185, 0, 389.2841758728027, 0, 0, 379.3759024531185, 239.6462745666504, 0, 0, 0, 1, 0]
+
+#--------------------------------------------------------------------------------------------
+# ORB Parameters
+#--------------------------------------------------------------------------------------------
+
+# ORB Extractor: Number of features per image
+ORBextractor.nFeatures: 1200
+
+# ORB Extractor: Scale factor between levels in the scale pyramid 	
+ORBextractor.scaleFactor: 1.2
+
+# ORB Extractor: Number of levels in the scale pyramid	
+ORBextractor.nLevels: 8
+
+# ORB Extractor: Fast threshold
+# Image is divided in a grid. At each cell FAST are extracted imposing a minimum response.
+# Firstly we impose iniThFAST. If no corners are detected we impose a lower value minThFAST
+# You can lower these values if your images have low contrast			
+ORBextractor.iniThFAST: 20
+ORBextractor.minThFAST: 7
+
+#--------------------------------------------------------------------------------------------
+# Viewer Parameters
+#--------------------------------------------------------------------------------------------
+Viewer.KeyFrameSize: 0.05
+Viewer.KeyFrameLineWidth: 1
+Viewer.GraphLineWidth: 0.9
+Viewer.PointSize:2
+Viewer.CameraSize: 0.08
+Viewer.CameraLineWidth: 3
+Viewer.ViewpointX: 0
+Viewer.ViewpointY: -0.7
+Viewer.ViewpointZ: -1.8
+Viewer.ViewpointF: 500
+
+
+#add by hr 
+#使用方法： 在建图时将Write_pose置为1，InitGPS_from_yaml置为0，修改txt文件保存位置,并通过位姿计算程序得到cam转GPS的转换后，更新本文件中的R,t，GPS.XYZ，最后将Write_pose置为0，InitGPS_from_yaml置为1；此后在运行跟踪程序，则能实现GPS信号不好时，用cam的位姿进行替换的功能
+
+#以下R,t表示从cam系到GPS系的转换 
+Cam2GPS.R:  !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [-0.39602122, 0.91824138, 0, -0.91824138, -0.39602122, 0, 0, 0, 1]
+Cam2GPS.t:  !!opencv-matrix
+   rows: 3
+   cols: 1
+   dt: d
+   data: [6.0576959, -0.65155047, 0]
+Write_pose: 0 #是否将cam和GPS数据写入文件，需要算R,t的时候才置为true
+InitGPS_from_yaml: 1 #是否从yaml文件中读取并初始化GPS的相对位姿
+cam_path_save: /home/neouysy/cam_path.txt
+gps_path_save: /home/neouysy/gps_path.txt
+gps_init_save: /home/neouysy/gps_init.txt 
+# 当InitGPS_from_yaml为false的时候，表示GPS初值为第一帧有效GPS值，此时gps_init_save_save需要记录下来供之后写入YAML文件中使用；
+# 以下为每次的GPS原点位置，和GPS原点相对于相机地图原点的偏移量(需要根据前一段寻迹的轨迹进行计算)
+GPS.x: 103.958360530
+GPS.y: 30.785253747
+GPS.z: 533.788000000
