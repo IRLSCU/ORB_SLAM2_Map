@@ -13,3 +13,4 @@ ORB_SLAM2 tool to create map
   - orb重定位模式(脚本: run_2_orb.sh, 选项为加载地图, 不保存地图, 重定位模式, 使用ctrl c结束任务, 结束后提示地图保存,选择不保存)
   - 位姿记录(脚本: record_pose.sh, 功能为使用rosbag recore 记录topic名为cur_pose的回话)
   - 位姿博让(脚本: play.sh 此只是示例, 一定要修改bag包的名字)
+
